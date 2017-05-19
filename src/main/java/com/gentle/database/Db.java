@@ -12,7 +12,7 @@ import java.sql.Connection;
 /**
  * 由于在大规模测试中连接池存在bug，所以关闭使用，大家还是用第三方的吧
  */
-public final class Db {
+final class Db {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private static final PoolConfig POOL_CONFIG = new PoolConfig();
