@@ -16,6 +16,7 @@ public final class ConfigHelper {
 
     private static final String CONFIG_FILE_NAME = "simple_framework.properties";
     private static final String APP_PACKAGE_KEY = "app_package";
+    private static final String DATABASE_POOL_SWITCH_KEY = "database_pool";
 
     static {
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
@@ -29,6 +30,35 @@ public final class ConfigHelper {
 
     public static String getAppPackageName() {
         return getProperty(APP_PACKAGE_KEY);
+    }
+
+    public static boolean getDatabasePoolSwitch() {
+        String status = config.getProperty(DATABASE_POOL_SWITCH_KEY);
+        return status.equals("on");
+    }
+
+    public static String getPropertyAsString(String key) {
+        return getProperty(key);
+    }
+
+    public static int getPropertyAsInt(String key) {
+        return Integer.valueOf(getProperty(key));
+    }
+
+    public static long getPropertyAsLog(String key) {
+        return Long.valueOf(getProperty(key));
+    }
+
+    public static double getPropertyAsDouble(String key) {
+        return Double.valueOf(getProperty(key));
+    }
+
+    public static float getPropertyAsFloat(String key) {
+        return Float.valueOf(getProperty(key));
+    }
+
+    public static boolean getPropertyAsBoolean(String key) {
+        return Boolean.valueOf(getProperty(key));
     }
 
     private static String getProperty(String key) {
