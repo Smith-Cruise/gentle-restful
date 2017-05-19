@@ -1,10 +1,14 @@
-package com.app;
+package app;
 
 import com.gentle.annotation.Action;
 import com.gentle.annotation.Controller;
 import com.gentle.bean.Data;
 import com.gentle.bean.RequestMethod;
 import com.gentle.bean.ResponseStatus;
+import com.gentle.helper.ServletHelper;
+import com.gentle.util.Util;
+
+import java.util.Map;
 
 /**
  * Created by Smith on 2017/5/18.
@@ -29,5 +33,11 @@ public class Test {
     @Action(method = RequestMethod.GET, path = "/not_found")
     public Data notfound() {
         return new Data(ResponseStatus.NOTFOUND, "this is not found request");
+    }
+
+    @Action(method = RequestMethod.GET, path = "/param")
+    public Data param() {
+        Map<String, String> param = Util.getParameters(ServletHelper.get().getHttpServletRequest());
+        return new Data(param);
     }
 }

@@ -1,8 +1,8 @@
-package com.gentle.datebase;
+package com.gentle.database;
 
-import com.gentle.datebase.pool.Pool;
-import com.gentle.datebase.pool.PoolConfig;
-import com.gentle.datebase.pool.PoolException;
+import com.gentle.database.pool.Pool;
+import com.gentle.database.pool.PoolConfig;
+import com.gentle.database.pool.PoolException;
 import com.gentle.helper.ConfigHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 
 /**
- * Created by Smith on 2017/5/16.
+ * 由于在大规模测试中连接池存在bug，所以关闭使用，大家还是用第三方的吧
  */
 public final class Db {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -27,7 +27,6 @@ public final class Db {
     private static final String PASSWORD_KEY = "pool.password";
     private static final String MIN_CONNECTION_KEY = "pool.minConnection";
     private static final String MAX_CONNECTION_KEY = "pool.maxConnection";
-    private static final String WAIT_TIME_KEY = "pool.waitTime";
 
     static {
         // 判断是否开启数据库连接池
@@ -44,7 +43,6 @@ public final class Db {
                 }
             }
         }
-        System.out.println("pool init ok");
     }
 
     public static Connection getConnection() throws Exception {
@@ -57,7 +55,6 @@ public final class Db {
 
     public static void backConnection(Connection connection) {
         if (pool != null) {
-            System.out.println("开始归还");
             pool.backConnection(connection);
         }
     }
@@ -70,6 +67,5 @@ public final class Db {
         POOL_CONFIG.setPassword(ConfigHelper.getPropertyAsString(PASSWORD_KEY));
         POOL_CONFIG.setMinConnection(ConfigHelper.getPropertyAsInt(MIN_CONNECTION_KEY));
         POOL_CONFIG.setMaxConnection(ConfigHelper.getPropertyAsInt(MAX_CONNECTION_KEY));
-        POOL_CONFIG.setWaitTime(ConfigHelper.getPropertyAsLog(WAIT_TIME_KEY));
     }
 }

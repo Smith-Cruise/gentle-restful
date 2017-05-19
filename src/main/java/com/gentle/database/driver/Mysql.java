@@ -1,4 +1,4 @@
-package com.gentle.datebase.driver;
+package com.gentle.database.driver;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

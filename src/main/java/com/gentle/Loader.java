@@ -14,7 +14,7 @@ public final class Loader {
     public static void load() {
         Class[] classes = {
                 ClassHelper.class,
-                ControllerHelper.class
+                ControllerHelper.class,
         };
 
         for (Class cls: classes) {

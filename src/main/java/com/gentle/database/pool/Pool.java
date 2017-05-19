@@ -1,6 +1,6 @@
-package com.gentle.datebase.pool;
+package com.gentle.database.pool;
 
-import com.gentle.datebase.driver.Mysql;
+import com.gentle.database.driver.Mysql;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,20 +24,17 @@ public class Pool {
         Class.forName(config.getDriver());
     }
 
-    public Connection getConnection() {
-        synchronized (this) {
-            if (connections == null) {
-                connections = new Vector<>();
-                initializePool();
-            }
-
-            PooledConnection connection = null;
-            while (connection == null) {
-                connection = getFreeConnection();
-            }
-            return connection.getConnection();
+    public synchronized Connection getConnection() throws InterruptedException {
+        if (connections == null) {
+            connections = new Vector<>();
+            initializePool();
         }
 
+        PooledConnection connection = null;
+        while (connection == null) {
+            connection = getFreeConnection();
+        }
+        return connection.getConnection();
     }
 
     public void backConnection(Connection connection) {
@@ -71,6 +68,7 @@ public class Pool {
                         connection.setBusy(true);
                         return connection;
                     } else {
+                        System.out.println("shanchu");
                         connectionIterator.remove();
                     }
                 }

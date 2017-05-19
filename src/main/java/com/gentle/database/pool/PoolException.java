@@ -1,4 +1,4 @@
-package com.gentle.datebase.pool;
+package com.gentle.database.pool;
 
 /**
  * Created by Smith on 2017/5/18.

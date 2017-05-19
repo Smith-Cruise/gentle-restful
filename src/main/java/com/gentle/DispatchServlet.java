@@ -73,22 +73,22 @@ public class DispatchServlet extends HttpServlet {
 
     private void do200(HttpServletResponse response, Object data) throws IOException {
         response.setStatus(200);
-        response.getWriter().write(getHttpBody(200, "Success", data));
+        response.getWriter().write(getHttpBody(200, "success", data));
     }
 
     private void do400(HttpServletResponse response, Object data) throws IOException {
         response.setStatus(400);
-        response.getWriter().write(getHttpBody(400, "Invalid Request", data));
+        response.getWriter().write(getHttpBody(400, "invalid request", data));
     }
 
     private void do401(HttpServletResponse response, Object data) throws IOException {
         response.setStatus(401);
-        response.getWriter().write(getHttpBody(401, "Unauthorized", data));
+        response.getWriter().write(getHttpBody(401, "unauthorized", data));
     }
 
     private void do404(HttpServletResponse response, Object data) throws IOException {
         response.setStatus(404);
-        response.getWriter().write(getHttpBody(404, "Not Found", data));
+        response.getWriter().write(getHttpBody(404, "not found", data));
     }
 
     private String getHttpBody(int code, String msg, Object data) {

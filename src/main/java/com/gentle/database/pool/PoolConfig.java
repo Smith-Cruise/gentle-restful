@@ -1,10 +1,10 @@
-package com.gentle.datebase.pool;
+package com.gentle.database.pool;
 
 /**
  * Created by Smith on 2017/5/18.
  */
 public class PoolConfig {
-    // todo 连接最大空闲时间
+    // todo 连接最大空闲时间  取得连接的最大等待时间，超出这段时间抛出异常
 
     private String database; // 数据库类型
     private String driver; // 数据库连接驱动
@@ -13,7 +13,6 @@ public class PoolConfig {
     private String password; // 数据库连接password
     private int minConnection; // 数据库连接池最小连接数
     private int maxConnection; // 数据库连接池最大连接数
-    private long waitTime; // 取得连接的最大等待时间
 
     public String getDatabase() {
         return database;
@@ -71,11 +70,4 @@ public class PoolConfig {
         this.maxConnection = maxConnection;
     }
 
-    public long getWaitTime() {
-        return waitTime;
-    }
-
-    public void setWaitTime(long waitTime) {
-        this.waitTime = waitTime;
-    }
 }

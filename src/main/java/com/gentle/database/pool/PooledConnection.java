@@ -1,4 +1,4 @@
-package com.gentle.datebase.pool;
+package com.gentle.database.pool;
 
 import java.sql.Connection;
 

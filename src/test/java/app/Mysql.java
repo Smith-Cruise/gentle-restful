@@ -1,6 +1,6 @@
-package com.app;
+package app;
 
-import com.gentle.datebase.Db;
+import com.gentle.database.Db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 public class Mysql {
     public static void main(String[] args) {
         try {
-            Class.forName("com.gentle.datebase.Db");
+            Class.forName("com.gentle.database.Db");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -20,7 +20,7 @@ public class Mysql {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        for (int i=0; i<50; i++) {
+        for (int i=0; i<100; i++) {
             new Robot().start();
         }
     }
@@ -35,11 +35,11 @@ class Robot extends Thread {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, Thread.currentThread().getName());
             ps.execute();
-            connection.close();
+            //connection.close();
             Db.backConnection(connection);
             System.out.println("success");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
