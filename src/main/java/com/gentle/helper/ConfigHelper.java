@@ -16,48 +16,62 @@ public final class ConfigHelper {
 
     private static final String CONFIG_FILE_NAME = "gentle_restful.properties";
     private static final String APP_PACKAGE_KEY = "app_package";
-    private static final String DATABASE_POOL_SWITCH_KEY = "database_pool";
+    private static final String DRUID_SWITCH_KEY = "druid_switch";
+    private static final String DRUID_CONFIG_FILE_NAME_KEY = "druid_config_file_name";
 
     static {
-        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
-        config = new Properties();
-        try {
-            config.load(is);
-        } catch (IOException e) {
-            LOGGER.error("can't find config configuration");
-        }
+        config = getProperties(CONFIG_FILE_NAME);
     }
 
     public static String getAppPackageName() {
         return getProperty(APP_PACKAGE_KEY);
     }
 
-    public static boolean getDatabasePoolSwitch() {
-        String status = config.getProperty(DATABASE_POOL_SWITCH_KEY);
+    public static boolean getDruidSwitch() {
+        String status = getProperty(DRUID_SWITCH_KEY);
         return status.equals("on");
     }
 
-    public static String getPropertyAsString(String key) {
+    public static String getDruidConfigFileName() {
+        return getProperty(DRUID_CONFIG_FILE_NAME_KEY);
+    }
+
+    public static Properties getDruidProperties() {
+        return getProperties(getDruidConfigFileName());
+    }
+
+    private static Properties getProperties(String fileName) {
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName);
+        Properties properties = new Properties();
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            LOGGER.error("can't find config configuration");
+        }
+        return properties;
+    }
+
+    private static String getPropertyAsString(String key) {
         return getProperty(key);
     }
 
-    public static int getPropertyAsInt(String key) {
+    private static int getPropertyAsInt(String key) {
         return Integer.valueOf(getProperty(key));
     }
 
-    public static long getPropertyAsLog(String key) {
+    private static long getPropertyAsLog(String key) {
         return Long.valueOf(getProperty(key));
     }
 
-    public static double getPropertyAsDouble(String key) {
+    private static double getPropertyAsDouble(String key) {
         return Double.valueOf(getProperty(key));
     }
 
-    public static float getPropertyAsFloat(String key) {
+    private static float getPropertyAsFloat(String key) {
         return Float.valueOf(getProperty(key));
     }
 
-    public static boolean getPropertyAsBoolean(String key) {
+    private static boolean getPropertyAsBoolean(String key) {
         return Boolean.valueOf(getProperty(key));
     }
 
