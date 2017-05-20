@@ -21,7 +21,7 @@ public final class ClassHelper {
     private static final Set<Class> APP_CLASS_SET;
 
     static {
-        BASE_CLASS_SET = ClassUtil.getClassSet("com.funnytu.framework");
+        BASE_CLASS_SET = ClassUtil.getClassSet("com.gentle");
         APP_CLASS_SET = ClassUtil.getClassSet(ConfigHelper.getAppPackageName());
     }
 

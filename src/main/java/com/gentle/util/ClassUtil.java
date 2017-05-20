@@ -33,7 +33,7 @@ public final class ClassUtil {
                 }
             }
         } catch (NullPointerException e) {
-            LOGGER.error("get class set in specific package error");
+            LOGGER.error("get class set in specific package error:"+e.getMessage());
         } catch (ClassNotFoundException e) {
             LOGGER.error("load class error:"+e.getMessage());
         }

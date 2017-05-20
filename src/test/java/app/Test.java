@@ -37,7 +37,7 @@ public class Test {
 
     @Action(method = RequestMethod.GET, path = "/param")
     public Data param() {
-        Map<String, String> param = Util.getParameters(ServletHelper.get().getHttpServletRequest());
+        Map<String, String> param = Util.getParameters();
         return new Data(param);
     }
 }

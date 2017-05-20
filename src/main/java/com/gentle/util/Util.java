@@ -1,5 +1,7 @@
 package com.gentle.util;
 
+import com.gentle.helper.ServletHelper;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -27,8 +29,9 @@ public final class Util {
     * <"param", null> <"user", "123">
     * 而不会存在以前的样子 <"user", "">
     * */
-    public static Map<String, String> getParameters(HttpServletRequest request) {
+    public static Map<String, String> getParameters() {
         Map<String, String> map = new HashMap<>();
+        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         Enumeration<String> params = request.getParameterNames();
         while (params.hasMoreElements()) {
             String paramName = params.nextElement();

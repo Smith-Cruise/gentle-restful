@@ -14,7 +14,7 @@ public final class ConfigHelper {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Properties config;
 
-    private static final String CONFIG_FILE_NAME = "simple_framework.properties";
+    private static final String CONFIG_FILE_NAME = "gentle_restful.properties";
     private static final String APP_PACKAGE_KEY = "app_package";
     private static final String DATABASE_POOL_SWITCH_KEY = "database_pool";
 
