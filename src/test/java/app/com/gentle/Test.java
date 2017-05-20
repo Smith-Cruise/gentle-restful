@@ -1,4 +1,4 @@
-package com.gentle;
+package app.com.gentle;
 
 import com.gentle.annotation.Action;
 import com.gentle.annotation.Controller;
@@ -17,22 +17,22 @@ import java.util.Map;
 public class Test {
     @Action(method = RequestMethod.GET, path = "/success")
     public Data success() {
-        return new Data(ResponseStatus.SUCCESS, "this is success request");
+        return new Data(ResponseStatus.SUCCESS, null, "this is success request");
     }
 
     @Action(method = RequestMethod.GET, path = "/error")
     public Data error() {
-        return new Data(ResponseStatus.ERROR, "this is error request");
+        return new Data(ResponseStatus.ERROR, null, "this is error request");
     }
 
     @Action(method = RequestMethod.GET, path = "/unauthorized")
     public Data unauthorized() {
-        return new Data(ResponseStatus.UNAUTHORIZED, "this is unauthorized request");
+        return new Data(ResponseStatus.UNAUTHORIZED, null, "this is unauthorized request");
     }
 
     @Action(method = RequestMethod.GET, path = "/not_found")
     public Data notfound() {
-        return new Data(ResponseStatus.NOTFOUND, "this is not found request");
+        return new Data(ResponseStatus.NOTFOUND, null, "this is not found request");
     }
 
     @Action(method = RequestMethod.GET, path = "/param")

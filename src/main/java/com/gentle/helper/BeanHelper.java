@@ -16,7 +16,7 @@ public final class BeanHelper {
     private static final Map<Class, Object> BEAN_MAP = new HashMap<>();
 
     static {
-        Set<Class> controllerClassSet = ClassHelper.getControllerClassSet();
+        Set<Class<?>> controllerClassSet = ClassHelper.getControllerClassSet();
         for (Class cls: controllerClassSet) {
             Object object = ReflectionUtil.newInstance(cls);
             if (object!=null) {

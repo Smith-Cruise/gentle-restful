@@ -21,7 +21,7 @@ public final class ControllerHelper {
     private static final Map<Request, Handler> ACTION_MAP = new HashMap<>();
 
     static {
-        Set<Class> controllerClassSet = ClassHelper.getControllerClassSet();
+        Set<Class<?>> controllerClassSet = ClassHelper.getControllerClassSet();
         for (Class controllerClass: controllerClassSet) {
             /* 获取次controller的所有方法，包含private等等 */
             Method[] methods = controllerClass.getDeclaredMethods();

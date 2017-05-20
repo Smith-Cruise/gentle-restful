@@ -8,7 +8,6 @@ import com.gentle.util.FrameworkUtil;
 import com.gentle.util.JsonUtil;
 import com.gentle.util.ReflectionUtil;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,22 +44,14 @@ public class DispatchServlet extends HttpServlet {
             Class controllerClass = handler.getControllerClass();
             Object controllerObject = BeanHelper.getBean(controllerClass);
             Method method = handler.getMethod();
-            Object result = null;
-            result = ReflectionUtil.invoke(controllerObject, method);
+            Object result = ReflectionUtil.invoke(controllerObject, method);
             if (result instanceof Data) {
                 Data data = (Data)result;
-                if (data.getStatus() == ResponseStatus.SUCCESS) {
-                    do200(resp, data.getData());
-                } else if (data.getStatus() == ResponseStatus.ERROR) {
-                    do400(resp, data.getData());
-                } else if (data.getStatus() == ResponseStatus.UNAUTHORIZED) {
-                    do401(resp, data.getData());
-                } else {
-                    do404(resp, data.getData());
-                }
+                returnHttp(resp, data);
             }
         } else {
-            do404(resp, null);
+            Data data = new Data(ResponseStatus.NOTFOUND, null, null);
+            returnHttp(resp, data);
         }
     }
 
@@ -70,29 +61,34 @@ public class DispatchServlet extends HttpServlet {
     * 401 UNAUTHORIZED
     * 404 NOT FOUND
     * */
-
-    private void do200(HttpServletResponse response, Object data) throws IOException {
-        response.setStatus(200);
-        response.getWriter().write(getHttpBody(200, "success", data));
-    }
-
-    private void do400(HttpServletResponse response, Object data) throws IOException {
-        response.setStatus(400);
-        response.getWriter().write(getHttpBody(400, "invalid request", data));
-    }
-
-    private void do401(HttpServletResponse response, Object data) throws IOException {
-        response.setStatus(401);
-        response.getWriter().write(getHttpBody(401, "unauthorized", data));
-    }
-
-    private void do404(HttpServletResponse response, Object data) throws IOException {
-        response.setStatus(404);
-        response.getWriter().write(getHttpBody(404, "not found", data));
-    }
-
-    private String getHttpBody(int code, String msg, Object data) {
-        HttpBody httpBody = new HttpBody(code, msg, data);
-        return JsonUtil.toJson(httpBody);
+    private void returnHttp(HttpServletResponse response, Data data) throws IOException {
+        ResponseStatus status = data.getStatus();
+        int code;
+        String msg = data.getMsg();
+        Object datum = data.getData();
+        switch (status) {
+            case SUCCESS:
+                code = 200;
+                if (msg==null)
+                    msg = "success";
+                break;
+            case ERROR:
+                code = 400;
+                if (msg==null)
+                    msg = "invalid request";
+                break;
+            case UNAUTHORIZED:
+                code = 401;
+                if (msg==null)
+                    msg = "unauthorized";
+                break;
+            default:
+                code = 404;
+                if (msg==null)
+                    msg = "not found";
+        }
+        HttpBody body = new HttpBody(code, msg, datum);
+        response.setStatus(code);
+        response.getWriter().write(JsonUtil.toJson(body));
     }
 }

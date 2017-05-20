@@ -15,22 +15,22 @@ public final class ClassHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
     // 框架class set集合
-    private static final Set<Class> BASE_CLASS_SET;
+    private static final Set<Class<?>> BASE_CLASS_SET;
 
     // 应用class set集合
-    private static final Set<Class> APP_CLASS_SET;
+    private static final Set<Class<?>> APP_CLASS_SET;
 
     static {
         BASE_CLASS_SET = ClassUtil.getClassSet("com.gentle");
         APP_CLASS_SET = ClassUtil.getClassSet(ConfigHelper.getAppPackageName());
     }
 
-    public static Set<Class> getBaseClassSet() {
+    public static Set<Class<?>> getBaseClassSet() {
         return BASE_CLASS_SET;
     }
 
-    public static Set<Class> getControllerClassSet() {
-        Set<Class> controllerSet = new HashSet<>();
+    public static Set<Class<?>> getControllerClassSet() {
+        Set<Class<?>> controllerSet = new HashSet<>();
         for (Class cls: APP_CLASS_SET) {
             if (cls.isAnnotationPresent(Controller.class)) {
                 controllerSet.add(cls);

@@ -26,8 +26,8 @@ public final class ClassUtil {
         rootPath = stringBuilder.toString().replace("/", "\\");
     }
 
-    public static Set<Class> getClassSet(String packageName) {
-        Set<Class> classSet = new HashSet<>();
+    public static Set<Class<?>> getClassSet(String packageName) {
+        Set<Class<?>> classSet = new HashSet<>();
         try {
             Enumeration<URL> urls = getClassLoader().getResources(packageName.replace(".","/"));
             while (urls.hasMoreElements()) {
@@ -64,7 +64,7 @@ public final class ClassUtil {
         return classSet;
     }
 
-    private static void addFile(Set<Class> classSet, File file) throws IOException, ClassNotFoundException {
+    private static void addFile(Set<Class<?>> classSet, File file) throws IOException, ClassNotFoundException {
         if (file.isFile()) {
             String className = file.getPath().replace(rootPath, "").replace("\\", ".");
             addClassToSet(classSet, className);
@@ -78,7 +78,7 @@ public final class ClassUtil {
         }
     }
 
-    private static void addClassToSet(Set<Class> classSet, String className) throws ClassNotFoundException {
+    private static void addClassToSet(Set<Class<?>> classSet, String className) throws ClassNotFoundException {
         className = className.replace(".class", "");
         Class cls = loadClass(className);
         classSet.add(cls);
