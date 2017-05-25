@@ -1,8 +1,6 @@
 package com.gentle;
 
-import com.gentle.helper.ClassHelper;
-import com.gentle.helper.ControllerHelper;
-import com.gentle.helper.DbHelper;
+import com.gentle.helper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +14,8 @@ public final class Loader {
         Class[] classes = {
                 ClassHelper.class,
                 ControllerHelper.class,
+                BeanHelper.class,
+                AopHelper.class,
                 DbHelper.class,
         };
 

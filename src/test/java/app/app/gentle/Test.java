@@ -1,11 +1,10 @@
-package app.com.gentle;
+package app.gentle;
 
 import com.gentle.annotation.Action;
 import com.gentle.annotation.Controller;
 import com.gentle.bean.Data;
 import com.gentle.bean.RequestMethod;
 import com.gentle.bean.ResponseStatus;
-import com.gentle.helper.ServletHelper;
 import com.gentle.util.Util;
 
 import java.util.Map;

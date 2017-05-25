@@ -27,7 +27,7 @@ public final class ReflectionUtil {
             method.setAccessible(true);
             result = method.invoke(obj, params);
         } catch (Exception e) {
-            LOGGER.error("method invoke failure");
+            LOGGER.error("method invoke failure:", e);
         }
         return result;
     }

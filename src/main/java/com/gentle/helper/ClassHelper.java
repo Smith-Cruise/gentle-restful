@@ -1,10 +1,12 @@
 package com.gentle.helper;
 
+import com.gentle.annotation.Auth;
 import com.gentle.annotation.Controller;
 import com.gentle.util.ClassUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,13 +32,20 @@ public final class ClassHelper {
     }
 
     public static Set<Class<?>> getControllerClassSet() {
-        Set<Class<?>> controllerSet = new HashSet<>();
+        return getSpecificClassSet(Controller.class);
+    }
+
+    public static Set<Class<?>> getAuthClassSet() {
+        return getSpecificClassSet(Auth.class);
+    }
+
+    private static Set<Class<?>> getSpecificClassSet(Class<? extends Annotation> annotation) {
+        Set<Class<?>> classSet = new HashSet<>();
         for (Class cls: APP_CLASS_SET) {
-            if (cls.isAnnotationPresent(Controller.class)) {
-                controllerSet.add(cls);
+            if (cls.isAnnotationPresent(annotation)) {
+                classSet.add(cls);
             }
         }
-
-        return controllerSet;
+        return classSet;
     }
 }

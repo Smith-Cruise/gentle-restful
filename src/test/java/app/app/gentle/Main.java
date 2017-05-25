@@ -1,4 +1,4 @@
-package app.com.gentle;
+package app.gentle;
 
 import com.gentle.helper.DbHelper;
 

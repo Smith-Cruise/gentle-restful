@@ -25,6 +25,10 @@ public final class BeanHelper {
         }
     }
 
+    public static void updateBean(Class cls, Object obj) {
+        BEAN_MAP.put(cls, obj);
+    }
+
     public static Object getBean(Class cls) {
         return BEAN_MAP.get(cls);
     }
