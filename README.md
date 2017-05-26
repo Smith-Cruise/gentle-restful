@@ -9,6 +9,7 @@
 未完成
 * 学习jfinal 看看是不是要把FastJSON api提供出来
 * druid
+* 添加cookie session操作
 
 ## 简易教程
 ### 代码
