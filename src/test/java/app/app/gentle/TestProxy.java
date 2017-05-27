@@ -11,6 +11,7 @@ import java.util.Map;
 public class TestProxy extends AuthProxy {
     @Override
     public void before() {
+        System.out.println(Util.getAuthorization());
         System.out.println("before");
     }
 

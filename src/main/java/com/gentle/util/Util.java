@@ -82,6 +82,10 @@ public final class Util {
         }
     }
 
+    public static String getAuthorization() {
+        return ServletHelper.get().getHttpServletRequest().getHeader("Authorization");
+    }
+
     /*
     * 返回32位小写
     * */
