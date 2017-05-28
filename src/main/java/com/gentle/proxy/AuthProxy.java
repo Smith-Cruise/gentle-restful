@@ -32,7 +32,7 @@ public abstract class AuthProxy extends Proxy {
         if (authenticate()) {
             result = methodProxy.invokeSuper(o, objects);
         } else {
-            result = new Data(ResponseStatus.UNAUTHORIZED);
+            result = new Data(ResponseStatus.UNAUTHORIZED, null, null);
         }
 
         after();
