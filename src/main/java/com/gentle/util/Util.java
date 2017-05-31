@@ -47,6 +47,28 @@ public final class Util {
         return map;
     }
 
+    /*
+    * 同时获取getParameters()和getRequestJsonAsMap()
+    * */
+    public static Map<String, String> getAllParameters() {
+        Map<String, String> map = new HashMap<>();
+        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
+        Enumeration<String> params = request.getParameterNames();
+        if (params.hasMoreElements()) {
+            while (params.hasMoreElements()) {
+                String paramName = params.nextElement();
+                String paramValue = input(request.getParameter(paramName));
+                map.put(paramName, paramValue);
+            }
+        }
+
+        Map<String, String> jsonMap = getRequestJsonAsMap();
+        if (jsonMap!=null) {
+            map.putAll(jsonMap);
+        }
+        return map;
+    }
+
     public static String getRequestJson() {
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         StringBuilder builder = new StringBuilder();

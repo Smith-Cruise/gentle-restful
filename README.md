@@ -12,6 +12,8 @@
 * druid
 * 添加cookie session操作
 * 完善拦截器
+* Util名字更换，不然容易和用户的冲突
+* ResultSet 自动装载Entity，使用注解方式判断字段
 
 ## 简易教程
 ### 代码
