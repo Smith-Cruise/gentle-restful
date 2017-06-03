@@ -3,13 +3,13 @@
 > Gentle是一个简易的restful的框架，方便大家更加容易开发单页应用后台。
 现在框架还在逐渐完善中，大家可以先观望下
 
-相关介绍
+###相关介绍
 * 支持GET POST DELETE PUT OPTIONS五种请求
 * 支持200 400 401 404四种状态返回
 * 便捷的函数，例如获取post参数只需`Util.getParameters()`,更多方法请看`Util`中的源码
 * 自带`Druid`连接池，只需简单配置下文件即可
-* `ResultSet`快速装载
-未完成
+* `ResultSet`快速装载  
+###未完成
 * action 上面添加参数匹配
 * 添加cookie session操作
 * 完善拦截器
