@@ -2,7 +2,10 @@ package com.gentle.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.gentle.annotation.Db;
 import com.gentle.helper.ServletHelper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,7 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -18,6 +25,7 @@ import java.util.*;
  * Created by Smith on 2017/5/19.
  */
 public final class Util {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     /*
     * 如果字符串为空则返回null
@@ -106,6 +114,67 @@ public final class Util {
 
     public static String getAuthorization() {
         return ServletHelper.get().getHttpServletRequest().getHeader("Authorization");
+    }
+
+    public static  <T> T resultSetConvertToEntity(ResultSet rs, Class<T> cls) throws Exception {
+        Field[] fields = cls.getDeclaredFields();
+        T entity = cls.newInstance();
+        if (rs.next()) {
+            for (Field field: fields) {
+                Db db = field.getAnnotation(Db.class);
+                String fieldName = db.fieldName();
+                Object value = null;
+                String type = field.getType().getName();
+                if (type.equals(int.class.getName())) {
+                    value = rs.getInt(fieldName);
+                } else if (type.equals(String.class.getName())) {
+                    value = rs.getString(fieldName);
+                } else if (type.equals(double.class.getName())) {
+                    value = rs.getDouble(fieldName);
+                } else if (type.equals(long.class.getName())) {
+                    value = rs.getLong(fieldName);
+                } else if (type.equals(boolean.class.getName())) {
+                    value = rs.getBoolean(fieldName);
+                } else if (type.equals(short.class.getName())) {
+                    value = rs.getShort(fieldName);
+                } else if (type.equals(java.sql.Date.class.getName())) {
+                    value = rs.getDate(fieldName);
+                } else if (type.equals(Array.class.getName())) {
+                    value = rs.getArray(fieldName);
+                } else if (type.equals(BigDecimal.class.getName())) {
+                    value = rs.getBigDecimal(fieldName);
+                } else if (type.equals(Blob.class.getName())) {
+                    value = rs.getBlob(fieldName);
+                } else if (type.equals(byte.class.getName())) {
+                    value = rs.getByte(fieldName);
+                } else if (type.equals(byte[].class.getName())) {
+                    value = rs.getBytes(fieldName);
+                } else {
+                    value = rs.getObject(fieldName);
+                }
+
+                /* 方法反射 */
+                String originFieldName = field.getName();
+                String first = originFieldName.substring(0,1).toUpperCase();
+                String newFieldName = first+originFieldName.substring(1);
+                String methodName = "set"+newFieldName;
+                Method method = cls.getMethod(methodName, field.getType());
+                method.invoke(entity, value);
+            }
+        } else {
+            throw new SQLException("the ResultSet is end");
+        }
+        return entity;
+    }
+
+    public static  <T> List<T> resultSetConvertToEntityList(ResultSet rs, Class<T> cls) throws Exception {
+        List<T> list = new ArrayList<>();
+        while (rs.next()) {
+            rs.previous();
+            T entity = resultSetConvertToEntity(rs, cls);
+            list.add(entity);
+        }
+        return list;
     }
 
     /*

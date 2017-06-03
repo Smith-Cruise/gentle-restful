@@ -8,6 +8,7 @@
 * 支持200 400 401 404四种状态返回
 
 未完成
+* action 上面添加参数匹配
 * 学习jfinal 看看是不是要把FastJSON api提供出来
 * druid
 * 添加cookie session操作
