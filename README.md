@@ -4,22 +4,24 @@
 现在框架还在逐渐完善中，大家可以先观望下
 
 相关介绍
-* 支持GET POST DELETE PUT四种请求
+* 支持GET POST DELETE PUT OPTIONS五种请求
 * 支持200 400 401 404四种状态返回
-
+* 便捷的函数，例如获取post参数只需`Util.getParameters()`,更多方法请看`Util`中的源码
+* 自带`Druid`连接池，只需简单配置下文件即可
+* `ResultSet`快速装载
 未完成
 * action 上面添加参数匹配
-* 学习jfinal 看看是不是要把FastJSON api提供出来
-* druid
 * 添加cookie session操作
 * 完善拦截器
-* Util名字更换，不然容易和用户的冲突
-* ResultSet 自动装载Entity，使用注解方式判断字段
+
+~~druid~~  
+~~学习jfinal 看看是不是要把FastJSON api提供出来~~  
+~~Util名字更换，不然容易和用户的冲突~~  
+~~ResultSet 自动装载Entity，使用注解方式判断字段~~
 
 ## 简易教程
 ### 代码
 ```java
-// 测试代码位于src/main/com/app中
 @Controller
 public class Test {
     @Action(method = RequestMethod.GET, path = "/success")
