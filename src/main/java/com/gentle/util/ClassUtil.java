@@ -22,8 +22,7 @@ public final class ClassUtil {
 
     static {
         StringBuilder stringBuilder = new StringBuilder(getClassLoader().getResource("").getFile());
-        stringBuilder.deleteCharAt(0);
-        rootPath = stringBuilder.toString().replace("/", "\\");
+        rootPath = stringBuilder.toString().replace("\\", "/");
     }
 
     public static Set<Class<?>> getClassSet(String packageName) {
@@ -59,14 +58,20 @@ public final class ClassUtil {
         } catch (IOException e) {
             LOGGER.error("can't read file:"+e.getMessage());
         } catch (ClassNotFoundException e) {
-            LOGGER.error("class not found:"+e.getMessage());
+            LOGGER.error("class not found:"+e.getMessage(), e);
         }
         return classSet;
     }
 
     private static void addFile(Set<Class<?>> classSet, File file) throws IOException, ClassNotFoundException {
         if (file.isFile()) {
-            String className = file.getPath().replace(rootPath, "").replace("\\", ".");
+            String tempFilePath = file.getPath().replace("\\", "/");
+            StringBuilder tempFilePathBuilder = new StringBuilder(tempFilePath);
+            if (!tempFilePath.startsWith("/")) {
+                tempFilePathBuilder.insert(0, "/");
+            }
+            String finalFilePath = tempFilePathBuilder.toString();
+            String className = finalFilePath.replace(rootPath, "").replace("/", ".");
             addClassToSet(classSet, className);
         } else if (file.isDirectory()) {
             File[] files = file.listFiles();
