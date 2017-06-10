@@ -1,4 +1,4 @@
-package app.gentle;
+package gentle;
 
 import com.alibaba.fastjson.JSON;
 import com.gentle.helper.DbHelper;

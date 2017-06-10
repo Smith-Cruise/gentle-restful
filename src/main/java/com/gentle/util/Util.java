@@ -3,6 +3,7 @@ package com.gentle.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gentle.annotation.Db;
+import com.gentle.bean.Servlet;
 import com.gentle.helper.ServletHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -175,6 +176,10 @@ public final class Util {
             list.add(entity);
         }
         return list;
+    }
+
+    public static Servlet getServlet() {
+        return ServletHelper.get();
     }
 
     /*

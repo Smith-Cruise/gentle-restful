@@ -1,4 +1,4 @@
-package app.gentle;
+package gentle;
 
 import com.gentle.proxy.AuthProxy;
 import com.gentle.util.Util;

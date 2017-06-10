@@ -1,4 +1,4 @@
-package app.app.gentle.cache;
+package gentle.cache;
 
 import org.ehcache.Cache;
 import org.ehcache.CacheManager;

@@ -1,4 +1,4 @@
-package app.gentle;
+package gentle;
 
 import com.gentle.annotation.*;
 import com.gentle.bean.Data;

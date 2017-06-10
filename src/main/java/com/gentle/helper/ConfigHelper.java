@@ -16,6 +16,7 @@ public final class ConfigHelper {
 
     private static final String CONFIG_FILE_NAME = "gentle_restful.properties";
     private static final String APP_PACKAGE_KEY = "app_package";
+    private static final String APP_BASE_ROUTE_KEY = "app_base_route";
     private static final String DRUID_SWITCH_KEY = "druid_switch";
     private static final String DRUID_CONFIG_FILE_NAME_KEY = "druid_config_file_name";
 
@@ -25,6 +26,10 @@ public final class ConfigHelper {
 
     public static String getAppPackageName() {
         return getProperty(APP_PACKAGE_KEY);
+    }
+
+    public static String getBaseRoute() {
+        return getProperty(APP_BASE_ROUTE_KEY);
     }
 
     public static boolean getDruidSwitch() {

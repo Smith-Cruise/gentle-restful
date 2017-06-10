@@ -10,7 +10,6 @@ import com.gentle.util.ReflectionUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,6 @@ import java.lang.reflect.Method;
 /**
  * Created by Smith on 2017/5/17.
  */
-@WebServlet(urlPatterns = "/*")
 public class DispatchServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -32,11 +30,11 @@ public class DispatchServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String requestPath = req.getPathInfo();
         /* 保存当前线程的request 和 response */
         ServletHelper.init(req, resp);
 
         RequestMethod requestMethod = FrameworkUtil.convertToRequestMethod(req.getMethod().toUpperCase());
-        String requestPath = req.getPathInfo();
 
         /* 获取指定Handler */
         Handler handler = ControllerHelper.getHandler(requestPath, requestMethod);

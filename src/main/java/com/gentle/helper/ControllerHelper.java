@@ -1,7 +1,6 @@
 package com.gentle.helper;
 
 import com.gentle.annotation.Action;
-import com.gentle.annotation.Controller;
 import com.gentle.bean.Handler;
 import com.gentle.bean.Request;
 import com.gentle.bean.RequestMethod;
@@ -29,7 +28,6 @@ public final class ControllerHelper {
             for (Method method: methods) {
                 if (method.isAnnotationPresent(Action.class)) {
                     Action action = method.getAnnotation(Action.class);
-
                     String requestPath = action.path();
                     RequestMethod requestMethod = action.method();
                     Request request = new Request(requestMethod, requestPath);

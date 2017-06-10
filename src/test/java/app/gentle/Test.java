@@ -1,4 +1,4 @@
-package app.gentle;
+package gentle;
 
 import com.gentle.annotation.Action;
 import com.gentle.annotation.Controller;
