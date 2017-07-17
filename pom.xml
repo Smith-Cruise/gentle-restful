@@ -66,13 +66,6 @@
             <version>1.0.31</version>
         </dependency>
 
-        <!--ehcache-->
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-
     </dependencies>
 
     <properties>
