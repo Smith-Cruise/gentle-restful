@@ -23,14 +23,16 @@ import java.util.*;
 
 /**
  * 提供一些常用的方法
- * Created by Smith on 2017/5/19.
+ * @author smith
  */
 public final class Util {
     private static final Logger LOGGER = LogManager.getLogger();
 
-    /*
-    * 如果字符串为空则返回null
-    * */
+    /**
+     * 检验一个字符串是否为空白，如果为空白则返回null
+     * @param s 字符串
+     * @return 返回字符串
+     */
     public static String input(String s) {
         if (s.equals(""))
             return null;
@@ -38,12 +40,13 @@ public final class Util {
             return s;
     }
 
-    /*
-    * 如果获得的值为空，则会自动转化为null
-    * 获得的最终结果就是
-    * <"param", null> <"user", "123">
-    * 而不会存在以前的样子 <"user", "">
-    * */
+    /**
+     * 类似于getParameter，返回Map格式.
+     * 如果获得的值为空，则会自动转化为null.<br>
+     * 例如URL 传值param: "", name: "smith",
+     * 则返回 {"data", null} {"name", "smith"}
+     * @return 返回Map
+     */
     public static Map<String, String> getParameters() {
         Map<String, String> map = new HashMap<>();
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
@@ -56,9 +59,10 @@ public final class Util {
         return map;
     }
 
-    /*
-    * 同时获取getParameters()和getRequestJsonAsMap()
-    * */
+    /**
+     * 同时获取getParameters()和getRequestJsonAsMap()
+     * @return 返回Map数据
+     */
     public static Map<String, String> getAllParameters() {
         Map<String, String> map = new HashMap<>();
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
@@ -78,6 +82,10 @@ public final class Util {
         return map;
     }
 
+    /**
+     * 获取表单以body格式提交的数据
+     * @return 得到的数据
+     */
     public static String getRequestJson() {
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         StringBuilder builder = new StringBuilder();
@@ -93,7 +101,11 @@ public final class Util {
         }
     }
 
-    /*获取以JSON形式提交的数据，字段为空返回null*/
+    /**
+     * 获取表单以body格式提交的数据.
+     * 并且转化为Map格式
+     * @return 返回Map
+     */
     public static Map<String, String> getRequestJsonAsMap() {
         String json = getRequestJson();
         if (json==null)
@@ -113,10 +125,23 @@ public final class Util {
         }
     }
 
+    /**
+     * 获取http字段中的Authorization.
+     * 通常用于前后端通信的鉴权.
+     * @return 返回Authorization
+     */
     public static String getAuthorization() {
         return ServletHelper.get().getHttpServletRequest().getHeader("Authorization");
     }
 
+    /**
+     * 将ResultSet转化为实体
+     * @param rs ResultSet
+     * @param cls 实体的类
+     * @param <T> 泛型
+     * @return 返回实体
+     * @throws Exception 异常
+     */
     public static  <T> T resultSetConvertToEntity(ResultSet rs, Class<T> cls) throws Exception {
         Field[] fields = cls.getDeclaredFields();
         T entity = cls.newInstance();
@@ -168,6 +193,14 @@ public final class Util {
         return entity;
     }
 
+    /**
+     * 将ResultSet转化为多个实体,并且以List存储
+     * @param rs ResultSet
+     * @param cls 实体的类
+     * @param <T> 泛型
+     * @return 返回List
+     * @throws Exception 抛出异常
+     */
     public static <T> List<T> resultSetConvertToEntityList(ResultSet rs, Class<T> cls) throws Exception {
         List<T> list = new ArrayList<>();
         while (rs.next()) {
@@ -178,48 +211,53 @@ public final class Util {
         return list;
     }
 
+    /**
+     * @return 返回当前线程的Servlet
+     */
     public static Servlet getServlet() {
         return ServletHelper.get();
     }
 
-    /*
-    * 返回32位小写
-    * */
-    public static String getMD5(String source) {
-        StringBuilder sb = new StringBuilder(32);
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(source.getBytes("utf-8"));
-            for (byte b: array) {
-                sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
-
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return sb.toString();
-    }
-
-    /*
-    * 返回32位大写
-    * */
+    /**
+     * 返回md5
+     * @param source 待加密字符串
+     * @param isUppercase 是否大小写
+     * @return 返回加密后的字符串
+     */
     public static String getMD5(String source, boolean isUppercase) {
         StringBuilder sb = new StringBuilder(32);
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] array = md.digest(source.getBytes("utf-8"));
-            for (byte b: array) {
-                sb.append(Integer.toHexString((b & 0xFF) | 0x100).toUpperCase().substring(1, 3));
+        if (isUppercase) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] array = md.digest(source.getBytes("utf-8"));
+                for (byte b: array) {
+                    sb.append(Integer.toHexString((b & 0xFF) | 0x100).toUpperCase().substring(1, 3));
+                }
+            } catch (Exception e) {
+                return null;
             }
-        } catch (Exception e) {
-            return null;
+            return sb.toString();
+        } else {
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+                byte[] array = md.digest(source.getBytes("utf-8"));
+                for (byte b: array) {
+                    sb.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
+
+                }
+            } catch (Exception e) {
+                return null;
+            }
+            return sb.toString();
         }
-        return sb.toString();
     }
 
-    /*
-    * 返回HMAC_SHA1 小写
-    * */
+    /**
+     * 返回HMAC_SHA1小写
+     * @param secret 密钥
+     * @param source 待加密
+     * @return 加密后字符串
+     */
     public static String getHMAC_SHA1(String secret, String source) {
         try {
             byte[] tempResult = getHMAC_SHA1(secret, source, true);
@@ -240,6 +278,14 @@ public final class Util {
     /*
     * 返回HMAC_SHA1原生二进制数据
     * */
+
+    /**
+     * 二进制返回HMAC_SHA1
+     * @param secret 密钥
+     * @param source 待加密
+     * @param isHex 返回二进制
+     * @return 返回加密后字符串
+     */
     public static byte[] getHMAC_SHA1(String secret, String source, boolean isHex) {
         try {
             byte[] key = secret.getBytes("utf-8");
@@ -254,6 +300,11 @@ public final class Util {
         }
     }
 
+    /**
+     * 计算base64
+     * @param s 字符串
+     * @return 得到base64
+     */
     public static String getBase64(String s) {
         try {
             return getBase64(s.getBytes("UTF-8"));
@@ -262,6 +313,11 @@ public final class Util {
         }
     }
 
+    /**
+     * 计算base64
+     * @param s 字符串
+     * @return 得到base64
+     */
     public static String getBase64(byte[] s) {
         return Base64.getEncoder().encodeToString(s);
     }
