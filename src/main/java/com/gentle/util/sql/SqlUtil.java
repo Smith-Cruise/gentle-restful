@@ -14,9 +14,6 @@ public class SqlUtil {
     // 表名
     private String tableName;
 
-    // 插入或更新的数据
-    private SqlDataInterface data;
-
     // where的数据
     private SqlDataInterface whereData;
 
@@ -38,13 +35,13 @@ public class SqlUtil {
         return this;
     }
 
-    public SqlUtil data(SqlDataInterface data) {
-        this.data = data;
+    public SqlUtil where(SqlDataInterface data) {
+        this.whereData = data;
         return this;
     }
 
-    public SqlUtil where(SqlDataInterface data) {
-        this.whereData = data;
+    public SqlUtil field(String field) {
+        this.field = field;
         return this;
     }
 
@@ -55,7 +52,7 @@ public class SqlUtil {
     public int delete() throws Exception {
         if (whereData==null)
             throw new Exception("where field is not defined");
-        return SqlExecutor.insert(connection, tableName, whereData);
+        return SqlExecutor.delete(connection, tableName, whereData);
     }
 
     public int update(SqlDataInterface data) throws Exception {

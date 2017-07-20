@@ -28,10 +28,20 @@ public final class DbHelper {
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    public static Connection get() throws SQLException {
         if (dataSource == null)
             throw new SQLException("druid had not been initialized");
 
         return dataSource.getConnection();
+    }
+
+    public static void close(Connection connection) {
+        try {
+            if (connection!=null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+        }
     }
 }

@@ -168,7 +168,7 @@ public final class Util {
         return entity;
     }
 
-    public static  <T> List<T> resultSetConvertToEntityList(ResultSet rs, Class<T> cls) throws Exception {
+    public static <T> List<T> resultSetConvertToEntityList(ResultSet rs, Class<T> cls) throws Exception {
         List<T> list = new ArrayList<>();
         while (rs.next()) {
             rs.previous();

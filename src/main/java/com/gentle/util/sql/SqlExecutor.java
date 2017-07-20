@@ -82,6 +82,7 @@ final class SqlExecutor {
         for (int i=0; i<params.length; i++) {
             ps.setObject(i+1, params[i]);
         }
+        ps.execute();
     }
 
     private static List<Map.Entry<String, Object>> parseData(SqlDataInterface data) throws Exception {
