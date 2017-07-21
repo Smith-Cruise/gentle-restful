@@ -1,7 +1,7 @@
 package app.database;
 
-import com.gentle.annotation.Db;
-import com.gentle.util.sql.SqlDataInterface;
+import org.inlighting.gentle.annotation.Db;
+import org.inlighting.gentle.util.sql.SqlDataInterface;
 
 /**
  * Created by Smith on 2017/7/19.

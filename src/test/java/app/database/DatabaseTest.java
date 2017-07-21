@@ -1,7 +1,7 @@
 package app.database;
 
-import com.gentle.helper.DbHelper;
-import com.gentle.util.sql.SqlUtil;
+import org.inlighting.gentle.helper.DbHelper;
+import org.inlighting.gentle.util.sql.SqlUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
