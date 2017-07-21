@@ -3,6 +3,8 @@
 > Gentle是一个简易的restful的框架，方便大家更加容易开发单页应用后台。
 现在框架还在逐渐完善中，大家可以先观望下
 
+文档地址：[在线浏览](https://www.kancloud.cn/cssmith/v0_1/360492)   
+
 ### 相关介绍
 * 支持GET POST DELETE PUT OPTIONS五种请求
 * 支持200 400 401 404四种状态返回
