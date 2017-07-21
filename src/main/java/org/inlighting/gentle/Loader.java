@@ -1,6 +1,5 @@
 package org.inlighting.gentle;
 
-import com.gentle.helper.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.inlighting.gentle.helper.*;

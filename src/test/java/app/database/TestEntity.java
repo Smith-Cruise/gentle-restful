@@ -8,13 +8,13 @@ import org.inlighting.gentle.util.sql.SqlDataInterface;
  * 不得使用基本类型
  */
 class TestEntity implements SqlDataInterface {
-    @Db(fieldName = "id")
+    @Db(column = "id")
     private Integer id;
 
-    @Db(fieldName = "name")
+    @Db(column = "name")
     private String name;
 
-    @Db(fieldName = "dateline")
+    @Db(column = "dateline")
     private Long dateline;
 
     public Integer getId() {

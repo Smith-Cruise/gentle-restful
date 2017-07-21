@@ -321,4 +321,13 @@ public final class Util {
     public static String getBase64(byte[] s) {
         return Base64.getEncoder().encodeToString(s);
     }
+
+    /**
+     * 讲Object转化为json，内部调用 fastjson
+     * @param obj 变量
+     * @return json
+     */
+    public static String getJson(Object obj) {
+        return JSON.toJSONString(obj);
+    }
 }

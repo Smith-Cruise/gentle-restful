@@ -1,13 +1,12 @@
 package org.inlighting.gentle;
 
-import com.gentle.bean.*;
 import org.inlighting.gentle.bean.*;
 import org.inlighting.gentle.helper.BeanHelper;
 import org.inlighting.gentle.helper.ControllerHelper;
 import org.inlighting.gentle.helper.ServletHelper;
 import org.inlighting.gentle.util.FrameworkUtil;
-import org.inlighting.gentle.util.JsonUtil;
 import org.inlighting.gentle.util.ReflectionUtil;
+import org.inlighting.gentle.util.Util;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -88,6 +87,6 @@ public class DispatchServlet extends HttpServlet {
         }
         HttpBody body = new HttpBody(code, msg, datum);
         response.setStatus(code);
-        response.getWriter().write(JsonUtil.toJson(body));
+        response.getWriter().write(Util.getJson(body));
     }
 }
