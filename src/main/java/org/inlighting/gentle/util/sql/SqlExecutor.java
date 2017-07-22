@@ -99,6 +99,9 @@ final class SqlExecutor {
             }
 
         }
-        return new ArrayList<>(mapped.entrySet());
+        List<Map.Entry<String, Object>> finalList = new ArrayList<>(mapped.entrySet());
+        if (finalList.size()==0)
+            throw new Exception("Actually where condition is empty");
+        return finalList;
     }
 }
