@@ -32,7 +32,6 @@ public final class ControllerHelper {
                     Request request = new Request(requestMethod, requestPath);
 
                     Handler handler = new Handler(controllerClass, method);
-                    System.out.println("put once");
                     if (ACTION_MAP.containsKey(request))
                         LOGGER.warn("this url with method is repeated");
                     else
