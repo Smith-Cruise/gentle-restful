@@ -24,8 +24,6 @@ public class DispatchServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         // 初始化类
         Loader.load();
-
-
     }
 
     @Override

@@ -17,6 +17,7 @@ public final class AopHelper {
     private static final Logger LOGGER = LogManager.getLogger();
 
     // todo 此处待开发，暂时只支持Auth
+    // todo 如果URL地址重复则抛出异常
     static {
         Set<Class<?>> classSet = ClassHelper.getAuthClassSet();
         for (Class<?> cls: classSet) {

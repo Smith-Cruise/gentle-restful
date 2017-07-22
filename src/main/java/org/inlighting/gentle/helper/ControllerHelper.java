@@ -24,7 +24,6 @@ public final class ControllerHelper {
         for (Class controllerClass: controllerClassSet) {
             /* 获取次controller的所有方法，包含private等等 */
             Method[] methods = controllerClass.getDeclaredMethods();
-
             for (Method method: methods) {
                 if (method.isAnnotationPresent(Action.class)) {
                     Action action = method.getAnnotation(Action.class);
@@ -33,7 +32,11 @@ public final class ControllerHelper {
                     Request request = new Request(requestMethod, requestPath);
 
                     Handler handler = new Handler(controllerClass, method);
-                    ACTION_MAP.put(request, handler);
+                    System.out.println("put once");
+                    if (ACTION_MAP.containsKey(request))
+                        LOGGER.warn("this url with method is repeated");
+                    else
+                        ACTION_MAP.put(request, handler);
                 }
             }
         }

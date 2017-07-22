@@ -1,4 +1,4 @@
-package app.database;
+package test.database;
 
 import org.inlighting.gentle.annotation.Db;
 import org.inlighting.gentle.util.sql.SqlDataInterface;
