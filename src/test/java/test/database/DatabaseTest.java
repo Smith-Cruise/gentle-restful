@@ -1,6 +1,7 @@
 package test.database;
 
 import org.inlighting.gentle.helper.DbHelper;
+import org.inlighting.gentle.util.Util;
 import org.inlighting.gentle.util.sql.SqlUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -108,8 +109,12 @@ class DatabaseTest {
             whereCondition.setName("smith");
             ResultSet resultSet = sqlUtil.table("test").where(whereCondition).field("*").select();
             int i=0;
-            while (resultSet.next())
+            while (resultSet.next()) {
                 i++;
+                resultSet.previous();
+                TestEntity testEntity = Util.resultSetConvertToEntity(resultSet, TestEntity.class);
+                System.out.println(testEntity.getId()+";"+testEntity.getName()+";"+testEntity.getDateline());
+            }
             return i;
         } catch (Exception e) {
             e.printStackTrace();

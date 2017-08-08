@@ -5,9 +5,10 @@ import org.inlighting.gentle.util.sql.SqlDataInterface;
 
 /**
  * Created by Smith on 2017/7/19.
+ * 必须为public class
  * 不得使用基本类型
  */
-class TestEntity implements SqlDataInterface {
+public class TestEntity implements SqlDataInterface {
     @Db(column = "id")
     private Integer id;
 

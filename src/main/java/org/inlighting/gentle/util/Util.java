@@ -2,11 +2,11 @@ package org.inlighting.gentle.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.inlighting.gentle.annotation.Db;
 import org.inlighting.gentle.bean.Servlet;
 import org.inlighting.gentle.helper.ServletHelper;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,10 +15,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.security.MessageDigest;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -147,45 +146,11 @@ public final class Util {
         T entity = cls.newInstance();
         if (rs.next()) {
             for (Field field: fields) {
+                field.setAccessible(true);
                 Db db = field.getAnnotation(Db.class);
                 String fieldName = db.column();
-                Object value = null;
-                String type = field.getType().getName();
-                if (type.equals(int.class.getName())) {
-                    value = rs.getInt(fieldName);
-                } else if (type.equals(String.class.getName())) {
-                    value = rs.getString(fieldName);
-                } else if (type.equals(double.class.getName())) {
-                    value = rs.getDouble(fieldName);
-                } else if (type.equals(long.class.getName())) {
-                    value = rs.getLong(fieldName);
-                } else if (type.equals(boolean.class.getName())) {
-                    value = rs.getBoolean(fieldName);
-                } else if (type.equals(short.class.getName())) {
-                    value = rs.getShort(fieldName);
-                } else if (type.equals(java.sql.Date.class.getName())) {
-                    value = rs.getDate(fieldName);
-                } else if (type.equals(Array.class.getName())) {
-                    value = rs.getArray(fieldName);
-                } else if (type.equals(BigDecimal.class.getName())) {
-                    value = rs.getBigDecimal(fieldName);
-                } else if (type.equals(Blob.class.getName())) {
-                    value = rs.getBlob(fieldName);
-                } else if (type.equals(byte.class.getName())) {
-                    value = rs.getByte(fieldName);
-                } else if (type.equals(byte[].class.getName())) {
-                    value = rs.getBytes(fieldName);
-                } else {
-                    value = rs.getObject(fieldName);
-                }
-
-                /* 方法反射 */
-                String originFieldName = field.getName();
-                String first = originFieldName.substring(0,1).toUpperCase();
-                String newFieldName = first+originFieldName.substring(1);
-                String methodName = "set"+newFieldName;
-                Method method = cls.getMethod(methodName, field.getType());
-                method.invoke(entity, value);
+                Object value = rs.getObject(fieldName);
+                field.set(entity, value);
             }
         } else {
             throw new SQLException("the ResultSet is end");
