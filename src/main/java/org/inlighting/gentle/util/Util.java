@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 
 /**
@@ -146,10 +146,42 @@ public final class Util {
         T entity = cls.newInstance();
         if (rs.next()) {
             for (Field field: fields) {
+                // check field type
+                if (field.getType().isPrimitive())
+                    throw new Exception("The field type can't be primitive type");
+
                 field.setAccessible(true);
                 Db db = field.getAnnotation(Db.class);
                 String fieldName = db.column();
-                Object value = rs.getObject(fieldName);
+                Object value = null;
+                String typeName = field.getType().getName();
+                if (typeName.equals(Integer.class.getName())) {
+                    value = rs.getInt(fieldName);
+                } else if (typeName.equals(String.class.getName())) {
+                    value = rs.getString(fieldName);
+                } else if (typeName.equals(Long.class.getName())) {
+                    value = rs.getLong(fieldName);
+                } else if (typeName.equals(Double.class.getName())) {
+                    value = rs.getDouble(fieldName);
+                } else if (typeName.equals(Float.class.getName())) {
+                    value = rs.getFloat(fieldName);
+                } else if (typeName.equals(Date.class.getName())) {
+                    value = rs.getDate(fieldName);
+                } else if (typeName.equals(Time.class.getName())) {
+                    value = rs.getTime(fieldName);
+                } else if (typeName.equals(Timestamp.class.getName())) {
+                    value = rs.getTimestamp(fieldName);
+                } else if (typeName.equals(Boolean.class.getName())) {
+                    value = rs.getBoolean(fieldName);
+                } else if (typeName.equals(Byte.class.getName())) {
+                    value = rs.getByte(fieldName);
+                } else if (typeName.equals(Short.class.getName())) {
+                    value = rs.getShort(fieldName);
+                } else if (typeName.equals(Byte[].class.getName())) {
+                    value = rs.getBytes(fieldName);
+                } else {
+                    value = rs.getObject(fieldName);
+                }
                 field.set(entity, value);
             }
         } else {

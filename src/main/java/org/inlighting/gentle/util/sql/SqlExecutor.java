@@ -91,6 +91,9 @@ final class SqlExecutor {
         Map<String, Object> mapped = new HashMap<>();
         for (Field field: fields) {
             field.setAccessible(true);
+            if (field.getType().isPrimitive())
+                throw new Exception("The field can't be primitive type");
+
             Object value = field.get(data);
             if (value!=null) {
                 Db db = field.getAnnotation(Db.class);
