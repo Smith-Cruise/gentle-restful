@@ -45,6 +45,16 @@ public class SqlUtil {
         return this;
     }
 
+    public SqlUtil order(String order) {
+        this.order = order;
+        return this;
+    }
+
+    public SqlUtil limit(String limit) {
+        this.limit = limit;
+        return this;
+    }
+
     public int insert(SqlDataInterface data) throws Exception {
         return SqlExecutor.insert(connection, tableName, data);
     }
