@@ -55,8 +55,11 @@ public class SqlUtil {
         return this;
     }
 
-    public int insert(SqlDataInterface data) throws Exception {
-        return SqlExecutor.insert(connection, tableName, data);
+    public int insert(SqlDataInterface data, boolean... generatedKey) throws Exception {
+        if (generatedKey.length==0)
+            return SqlExecutor.insert(connection, tableName, data, false);
+        else
+            return SqlExecutor.insert(connection, tableName, data, generatedKey[0]);
     }
 
     public int delete() throws Exception {
