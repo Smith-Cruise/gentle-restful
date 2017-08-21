@@ -21,14 +21,8 @@ public final class ReflectionUtil {
         return obj;
     }
 
-    public static Object invoke(Object obj, Method method, Object... params) {
-        Object result = null;
-        try {
-            method.setAccessible(true);
-            result = method.invoke(obj, params);
-        } catch (Exception e) {
-            LOGGER.error("method invoke failure:", e);
-        }
-        return result;
+    public static Object invoke(Object obj, Method method, Object... params) throws Exception {
+        method.setAccessible(true);
+        return method.invoke(obj, params);
     }
 }

@@ -60,18 +60,24 @@ public class SqlUtil {
     }
 
     public int delete() throws Exception {
+        if (tableName==null)
+            throw new Exception("table name is not defined");
         if (whereData==null)
             throw new Exception("where field is not defined");
         return SqlExecutor.delete(connection, tableName, whereData);
     }
 
     public int update(SqlDataInterface data) throws Exception {
+        if (tableName==null)
+            throw new Exception("table name is not defined");
         if (whereData==null)
             throw new Exception("where field is not defined");
         return SqlExecutor.update(connection, tableName, data, whereData);
     }
 
     public ResultSet select() throws Exception {
+        if (tableName==null)
+            throw new Exception("table name is not defined");
         if (whereData==null)
             throw new Exception("where field is not defined");
         if (field==null)

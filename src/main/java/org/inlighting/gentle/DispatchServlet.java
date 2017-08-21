@@ -1,5 +1,7 @@
 package org.inlighting.gentle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.inlighting.gentle.bean.*;
 import org.inlighting.gentle.helper.BeanHelper;
 import org.inlighting.gentle.helper.ControllerHelper;
@@ -20,6 +22,8 @@ import java.lang.reflect.Method;
  * Created by Smith on 2017/5/17.
  */
 public class DispatchServlet extends HttpServlet {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         // 初始化类
@@ -40,9 +44,15 @@ public class DispatchServlet extends HttpServlet {
             Class controllerClass = handler.getControllerClass();
             Object controllerObject = BeanHelper.getBean(controllerClass);
             Method method = handler.getMethod();
-            Object result = ReflectionUtil.invoke(controllerObject, method);
-            if (result instanceof Data) {
-                Data data = (Data)result;
+            try {
+                Object result = ReflectionUtil.invoke(controllerObject, method);
+                if (result instanceof Data) {
+                    Data data = (Data)result;
+                    returnHttp(resp, data);
+                }
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage(), e);
+                Data data = new Data(ResponseStatus.ERROR, "some error occurred", e.getMessage());
                 returnHttp(resp, data);
             }
         } else {

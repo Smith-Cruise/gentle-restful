@@ -3,10 +3,7 @@ package org.inlighting.gentle.util.sql;
 import org.inlighting.gentle.annotation.Db;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,13 +13,25 @@ import java.util.Map;
  * Created by Smith on 2017/7/18.
  */
 final class SqlExecutor {
-    static int insert(Connection connection, final String TABLE_NAME, SqlDataInterface data) throws Exception {
-        List<Map.Entry<String, Object>> parsedData = parseData(data);
-        PreparedStatement ps = connection.prepareStatement(SqlBuilder.getInsertSql(TABLE_NAME, parsedData));
-        for (int i=1; i<=parsedData.size(); i++) {
-            ps.setObject(i, parsedData.get(i-1).getValue());
+    static int insert(Connection connection, final String TABLE_NAME, SqlDataInterface data, boolean generatedKey) throws Exception {
+        if (generatedKey) {
+            List<Map.Entry<String, Object>> parsedData = parseData(data);
+            PreparedStatement ps = connection.prepareStatement(SqlBuilder.getInsertSql(TABLE_NAME, parsedData), Statement.RETURN_GENERATED_KEYS);
+            for (int i = 1; i <= parsedData.size(); i++) {
+                ps.setObject(i, parsedData.get(i - 1).getValue());
+            }
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            return rs.getInt(1);
+        } else {
+            List<Map.Entry<String, Object>> parsedData = parseData(data);
+            PreparedStatement ps = connection.prepareStatement(SqlBuilder.getInsertSql(TABLE_NAME, parsedData));
+            for (int i = 1; i <= parsedData.size(); i++) {
+                ps.setObject(i, parsedData.get(i - 1).getValue());
+            }
+            return ps.executeUpdate();
         }
-        return ps.executeUpdate();
     }
 
     static int delete(Connection connection, final String TABLE_NAME, SqlDataInterface data) throws Exception {
