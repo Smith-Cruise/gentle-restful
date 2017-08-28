@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
-import java.sql.*;
 import java.sql.Date;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -79,6 +79,16 @@ public final class Util {
             map.putAll(jsonMap);
         }
         return map;
+    }
+
+    public void setSession(String key, Object value) {
+        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
+        request.getSession().setAttribute(key, value);
+    }
+
+    public Object getSession(String key) {
+        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
+        return request.getSession().getAttribute(key);
     }
 
     /**
