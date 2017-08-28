@@ -81,12 +81,22 @@ public final class Util {
         return map;
     }
 
-    public void setSession(String key, Object value) {
+    /**
+     * set session
+     * @param key 键值
+     * @param value 值
+     */
+    public static void setSession(String key, Object value) {
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         request.getSession().setAttribute(key, value);
     }
 
-    public Object getSession(String key) {
+    /**
+     * get session
+     * @param key 键值
+     * @return 值
+     */
+    public static Object getSession(String key) {
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         return request.getSession().getAttribute(key);
     }
