@@ -21,6 +21,7 @@ public final class ControllerHelper {
 
     static {
         Set<Class<?>> controllerClassSet = ClassHelper.getControllerClassSet();
+        final String BASE_PATH = ConfigHelper.getAppBasePath();
         for (Class controllerClass: controllerClassSet) {
             /* 获取次controller的所有方法，包含private等等 */
             Method[] methods = controllerClass.getDeclaredMethods();
@@ -29,7 +30,7 @@ public final class ControllerHelper {
                     Action action = method.getAnnotation(Action.class);
                     String requestPath = action.path();
                     RequestMethod requestMethod = action.method();
-                    Request request = new Request(requestMethod, requestPath);
+                    Request request = new Request(requestMethod, BASE_PATH+requestPath);
 
                     Handler handler = new Handler(controllerClass, method);
                     if (ACTION_MAP.containsKey(request))

@@ -12,6 +12,7 @@ public final class Loader {
 
     public static void load() {
         Class[] classes = {
+                ConfigHelper.class,
                 ClassHelper.class,
                 ControllerHelper.class,
                 BeanHelper.class,
@@ -29,6 +30,8 @@ public final class Loader {
             Class.forName(cls.getName(), true, Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException e) {
             LOGGER.error("class not found");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
