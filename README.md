@@ -49,6 +49,3 @@ public class Test {
     }
 }
 ```
-### 效果
-![](https://raw.githubusercontent.com/Smith-Curise/gentle-restful/master/asset/introduce.gif)
-
