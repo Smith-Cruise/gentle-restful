@@ -2,6 +2,7 @@ package org.inlighting.gentle;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.IOException;
 
 /**

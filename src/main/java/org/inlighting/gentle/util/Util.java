@@ -39,6 +39,11 @@ public final class Util {
             return s;
     }
 
+
+    public static Map<String, String> getParameters() {
+        return getParameters(false);
+    }
+
     /**
      * 类似于getParameter，返回Map格式.
      * 如果获得的值为空，则会自动转化为null.<br>
@@ -46,15 +51,25 @@ public final class Util {
      * 则返回 {"data", null} {"name", "smith"}
      * @return 返回Map
      */
-    public static Map<String, String> getParameters() {
+    public static Map<String, String> getParameters(boolean isStrict) {
         Map<String, String> map = new HashMap<>();
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         Enumeration<String> params = request.getParameterNames();
         while (params.hasMoreElements()) {
             String paramName = params.nextElement();
-            String paramValue = input(request.getParameter(paramName));
+            String paramValue = request.getParameter(paramName);
+            if (isStrict)
+                paramValue = input(paramValue);
+
             map.put(paramName, paramValue);
         }
+
+        // get json map
+        Map<String, String> jsonMap = getRequestJsonAsMap(isStrict);
+        if (jsonMap!=null) {
+            map.putAll(jsonMap);
+        }
+
         return map;
     }
 
@@ -62,6 +77,7 @@ public final class Util {
      * 同时获取getParameters()和getRequestJsonAsMap()
      * @return 返回Map数据
      */
+    @Deprecated
     public static Map<String, String> getAllParameters() {
         Map<String, String> map = new HashMap<>();
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
@@ -74,11 +90,58 @@ public final class Util {
             }
         }
 
-        Map<String, String> jsonMap = getRequestJsonAsMap();
+        Map<String, String> jsonMap = getRequestJsonAsMap(true);
         if (jsonMap!=null) {
             map.putAll(jsonMap);
         }
         return map;
+    }
+
+    /**
+     * 获取表单以body格式提交的数据
+     * @return 得到的数据
+     */
+    private static String getRequestJson() {
+        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
+        StringBuilder builder = new StringBuilder();
+        try {
+            BufferedReader reader = request.getReader();
+            String temp;
+            while ((temp = reader.readLine()) !=null) {
+                builder.append(temp);
+            }
+            return builder.toString();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 获取表单以body格式提交的数据.
+     * 并且转化为Map格式
+     * @return 返回Map
+     */
+    private static Map<String, String> getRequestJsonAsMap(boolean isStrict) {
+        String json = getRequestJson();
+        if (json==null)
+            return null;
+
+        try {
+            JSONObject object = JSON.parseObject(json);
+            Map<String, Object> map = JSON.toJavaObject(object, Map.class);
+            Map<String, String> param = new HashMap<>();
+            for (Map.Entry<String, Object> entry: map.entrySet()) {
+                String value;
+                if (isStrict)
+                    value = input(String.valueOf(entry.getValue()));
+                else
+                    value = String.valueOf(entry.getValue());
+                param.put(entry.getKey(), value);
+            }
+            return param;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -99,49 +162,6 @@ public final class Util {
     public static Object getSession(String key) {
         HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
         return request.getSession().getAttribute(key);
-    }
-
-    /**
-     * 获取表单以body格式提交的数据
-     * @return 得到的数据
-     */
-    public static String getRequestJson() {
-        HttpServletRequest request = ServletHelper.get().getHttpServletRequest();
-        StringBuilder builder = new StringBuilder();
-        try {
-            BufferedReader reader = request.getReader();
-            String temp;
-            while ((temp = reader.readLine()) !=null) {
-                builder.append(temp);
-            }
-            return builder.toString();
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * 获取表单以body格式提交的数据.
-     * 并且转化为Map格式
-     * @return 返回Map
-     */
-    public static Map<String, String> getRequestJsonAsMap() {
-        String json = getRequestJson();
-        if (json==null)
-            return null;
-
-        try {
-            JSONObject object = JSON.parseObject(json);
-            Map<String, Object> map = JSON.toJavaObject(object, Map.class);
-            Map<String, String> param = new HashMap<>();
-            for (Map.Entry<String, Object> entry: map.entrySet()) {
-                String value = input(String.valueOf(entry.getValue()));
-                param.put(entry.getKey(), value);
-            }
-            return param;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     /**
