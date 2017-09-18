@@ -26,14 +26,13 @@ import java.util.Map;
 /**
  * Created by Smith on 2017/5/17.
  */
-@WebServlet(urlPatterns = "/*", loadOnStartup = 0)
+@WebServlet(urlPatterns = "/gentle-restful/*", loadOnStartup = 0)
 public class DispatchServlet extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        // 初始化类
-        Loader.load();
+
     }
 
     @Override

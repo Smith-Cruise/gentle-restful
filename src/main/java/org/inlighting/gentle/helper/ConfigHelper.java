@@ -25,24 +25,24 @@ public final class ConfigHelper {
         CONFIG = getProperties(CONFIG_FILE_NAME);
     }
 
-    static String getAppPackageName() {
+    public static String getAppPackageName() {
         return getProperty(APP_PACKAGE_KEY);
     }
 
-    static String getAppBasePath() {
+    public static String getAppBasePath() {
         return getProperty(APP_BASE_PATH_KEY);
     }
 
-    static boolean getDruidSwitch() {
+    public static boolean getDruidSwitch() {
         String status = getProperty(DRUID_SWITCH_KEY);
         return status.equals("on");
     }
 
-    static String getDruidConfigFileName() {
+    public static String getDruidConfigFileName() {
         return getProperty(DRUID_CONFIG_FILE_NAME_KEY);
     }
 
-    static Properties getDruidProperties() {
+    public static Properties getDruidProperties() {
         return getProperties(getDruidConfigFileName());
     }
 
