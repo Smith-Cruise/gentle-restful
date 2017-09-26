@@ -24,8 +24,9 @@ public class GlobalFilter implements Filter {
         servletResponse.setContentType("application/json;charset=utf-8");
         if (url.startsWith(baseUrl)) {
             servletRequest.getRequestDispatcher("/gentle-restful"+url).forward(servletRequest, servletResponse);
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
