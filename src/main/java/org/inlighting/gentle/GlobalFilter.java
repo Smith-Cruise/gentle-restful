@@ -17,8 +17,9 @@ public class GlobalFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String baseUrl = ConfigHelper.getAppBasePath();
         HttpServletRequest req = (HttpServletRequest)servletRequest;
-        String url = req.getRequestURI();
-
+        String url = req.getServletPath();
+        if (url==null)
+            url = req.getRequestURI();
         servletRequest.setCharacterEncoding("utf-8");
         servletResponse.setCharacterEncoding("utf-8");
         servletResponse.setContentType("application/json;charset=utf-8");
